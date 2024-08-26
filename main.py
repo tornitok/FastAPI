@@ -1,20 +1,39 @@
 from fastapi import FastAPI
-import uvicorn
+from typing import Optional
+from enum import Enum
 
 # Создание объекта приложения.
-app = FastAPI(docs_url='/swagger')
+app = FastAPI()
 
 
-# Декоратор, определяющий, что GET-запросы к основному URL приложения
-# должны обрабатываться этой функцией.
-@app.get('/')
-def read_root():
-    return {'Hello': 'FastAPI'}
+class EducationLevel(str, Enum):
+    # Укажем значения с большой буквы, чтобы они хорошо смотрелись
+    # в документации Swagger.
+    SECONDARY = 'Среднее образование'
+    SPECIAL = 'Среднее специальное образование'
+    HIGHER = 'Высшее образовани'
+
+# Новый эндпоинт: приветствие для автора.
 
 
+@app.get('/{name}')
+def greetings(
+        *,
+        name: str,
+        surname: str,
+        age: Optional[int] = None,
+        is_staff: bool = False,
+        education_level: Optional[EducationLevel] = None,
+) -> dict[str, str]:
+    result = ' '.join([name, surname, education_level])
+    result = result.title()
+    if age is not None:
+        result += ', ' + str(age)
+    if is_staff:
+        result += ', сотрудник'
+    return {'Hello': result}
 
-if __name__ == '__main__':
-    # Команда на запуск uvicorn.
-    # Здесь же можно указать хост и/или порт при необходимости,
-    # а также другие параметры.
-    uvicorn.run('main:app', reload=True)
+
+@app.get('/me')
+def hello_author():
+    return {'Hello': 'author'}
