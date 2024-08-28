@@ -77,32 +77,11 @@
 # def hello_author():
 #     return {'Hello': 'author'}
 
-from enum import Enum
-from typing import Optional
-
 from fastapi import FastAPI
-# Для работы с JSON в теле запроса
-# импортируем из pydantic класс BaseModel
-from pydantic import BaseModel
+
+from schemas import Person
 
 app = FastAPI()
-
-
-class EducationLevel(str, Enum):
-    SECONDARY = 'Среднее образование'
-    SPECIAL = 'Среднее специальное образование'
-    HIGHER = 'Высшее образование'
-
-
-# Создадим класс Person, унаследованный от BaseModel;
-# в атрибутах класса перечислим ожидаемые параметры запроса.
-# Аннотируем атрибуты класса.
-class Person(BaseModel):
-    name: str
-    surname: list[str]
-    age: Optional[int]
-    is_staff: bool = False
-    education_level: Optional[EducationLevel]
 
 
 # Меняем метод GET на POST, указываем статичный адрес.

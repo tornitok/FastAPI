@@ -1,8 +1,7 @@
-from fastapi import FastAPI
+def extract_elements(element) -> str:
+    return element[1::2]
 
-my_incredible_application = FastAPI()
 
-
-@my_incredible_application.get('/')
-def read_root():
-    return {'Hello': 'FastAPI'}
+a = 'РОЗА'
+result = extract_elements(a)
+print(result)
