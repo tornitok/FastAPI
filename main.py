@@ -77,7 +77,7 @@
 # def hello_author():
 #     return {'Hello': 'author'}
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 
 from schemas import Person
 
@@ -88,7 +88,10 @@ app = FastAPI()
 @app.post('/hello')
 # Вместо множества параметра теперь будет только один - person,
 # в качестве аннотации указываем класс Person.
-def greetings(person: Person) -> dict[str, str]:
+def greetings(
+    person: Person = Body(
+        ..., examples=Person.Config.schema_extra['examples']
+        )) -> dict[str, str]:
     # Обращение к атрибутам класса происходит через точку;
     # при этом будут работать проверки на уровне типов данных.
     # В IDE будут работать автодополнения.
