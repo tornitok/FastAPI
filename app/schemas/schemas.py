@@ -13,9 +13,11 @@ class EducationLevel(str, Enum):
 
 class Person(BaseModel):
     name: str = Field(
-        ..., max_length=20,
-        title='Полное имя', description='Можно вводить в любом регистре',
-        example='Ivan'
+        ...,
+        max_length=20,
+        title='Полное имя',
+        description='Можно вводить в любом регистре',
+        example='Ivan',
     )
     surname: Union[str, list[str]] = Field(..., min_length=2, max_length=50)
     age: Optional[int] = Field(None, gt=4, le=99, example=20)
@@ -31,23 +33,23 @@ class Person(BaseModel):
                     'summary': 'Одна фамилия',
                     'description': 'Одиночная фамилия передается строкой',
                     'value': {
-                       'name': 'Taras',
-                       'surname': 'Belov',
-                       'age': 20,
-                       'is_staff': False,
-                       'education_level': 'Среднее образование'
-                    }
+                        'name': 'Taras',
+                        'surname': 'Belov',
+                        'age': 20,
+                        'is_staff': False,
+                        'education_level': 'Среднее образование',
+                    },
                 },
                 'multiple_surnames': {
                     'summary': 'Несколько фамилий',
                     'description': 'Несколько фамилий передаются списком',
                     'value': {
-                       'name': 'Eduardo',
-                       'surname': ['Santos', 'Tavares'],
-                       'age': 20,
-                       'is_staff': False,
-                       'education_level': 'Высшее образование'
-                    }
+                        'name': 'Eduardo',
+                        'surname': ['Santos', 'Tavares'],
+                        'age': 20,
+                        'is_staff': False,
+                        'education_level': 'Высшее образование',
+                    },
                 },
                 'invalid': {
                     'summary': 'Некорректный запрос',
@@ -57,9 +59,9 @@ class Person(BaseModel):
                         'surname': ['Santos', 'Tavares'],
                         'age': 'forever young',
                         'is_staff': False,
-                        'education_level': 'Среднее специальное образование'
-                    }
-                }
+                        'education_level': 'Среднее специальное образование',
+                    },
+                },
             }
         }
 
@@ -95,8 +97,9 @@ class Person(BaseModel):
         # Ищем хотя бы одну кириллическую букву в строке
         # и хотя бы одну латинскую букву.
         # Флаг re.IGNORECASE указывает на то, что регистр не важен.
-        if (re.search('[а-я]', checked_value, re.IGNORECASE)
-                and re.search('[a-z]', checked_value, re.IGNORECASE)):
+        if re.search('[а-я]', checked_value, re.IGNORECASE) and re.search(
+            '[a-z]', checked_value, re.IGNORECASE
+        ):
             raise ValueError(
                 'Пожалуйста, не смешивайте русские и латинские буквы'
             )
